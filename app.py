@@ -1,7 +1,7 @@
 from flask import Flask
 from flask_restful import Resource, Api
 from models.costumer import CostumerModel
-from resources.costumer import Costumer, CostumerRegister
+from resources.costumer import Costumers, Costumer, CostumerRegister
 
 app = Flask(__name__)
 
@@ -14,6 +14,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] =  False
 def create_database():
     database.create_all()
 
+api.add_resource(Costumers, '/costumers/')
 api.add_resource(Costumer, '/costumers/<string:costumer_id_cpf>')
 api.add_resource(CostumerRegister, '/register_costumer')
 

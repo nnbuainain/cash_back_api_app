@@ -5,6 +5,11 @@ attributes = reqparse.RequestParser()
 attributes.add_argument('costumer_id_cpf', type = str, required = True, help = "Please inform costumer's id")
 attributes.add_argument('name', type = str)
 
+
+class Costumers(Resource):
+    def get(self):
+        return {'costumers' : [costumer.to_json() for costumer in CostumerModel.query.all()]}
+
 class Costumer(Resource):
     def get(self, costumer_id_cpf):
         costumer = CostumerModel.find_costumer(costumer_id_cpf)
