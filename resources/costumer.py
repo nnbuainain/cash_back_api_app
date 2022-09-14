@@ -13,7 +13,16 @@ class Costumer(Resource):
             return costumer.to_json()
         
         return {'message' : 'User not found'}, 404 # Bad Request
+    
+    def delete(self, costumer_id_cpf : str):
+        costumer = CostumerModel.find_costumer(costumer_id_cpf)
 
+        if costumer:
+            costumer.delete()
+            return {'message' : "Costumer with id '{}' successfully deleted".format(costumer_id_cpf)}
+        
+        return {'message' : 'Costumer not found'}
+            
 class CostumerRegister(Resource):   
     def post(self):
         data = attributes.parse_args()
