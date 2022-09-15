@@ -4,6 +4,8 @@ from models.costumer import CostumerModel
 from resources.costumer import Costumers, Costumer, CostumerRegister
 from models.product import ProductModel
 from resources.product import Products, Product, ProductRegister
+from models.sale import SaleModel
+from resources.sale import Sales, Sale, SaleRegister
 
 app = Flask(__name__)
 
@@ -22,6 +24,10 @@ api.add_resource(CostumerRegister, '/register_costumer')
 api.add_resource(Products, '/products/')
 api.add_resource(Product, '/products/<int:id>')
 api.add_resource(ProductRegister, '/register_product')
+api.add_resource(Sales, '/sales')
+api.add_resource(Sale, '/sales/<int:sale_id>')
+api.add_resource(SaleRegister, '/register_sale')
+
 
 if __name__ == '__main__':
     from sql_alchemy import database

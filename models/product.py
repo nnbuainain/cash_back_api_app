@@ -6,6 +6,7 @@ class ProductModel(database.Model):
     id = database.Column(database.Integer(), primary_key = True)
     category = database.Column(database.String(1))
     value = database.Column(database.Float(precision = 2))
+    
 
     def __init__(self, category : str, value: float):
         self.category = category.upper()

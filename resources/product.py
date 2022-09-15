@@ -21,7 +21,7 @@ class Product(Resource):
         
         return {'message' : 'Product not found'}, 404 # Bad Request
     
-    def delete(self, id : str):
+    def delete(self, id : int):
         product = ProductModel.find_product(id)
 
         if product:

@@ -8,7 +8,7 @@ attributes.add_argument('name', type = str)
 
 class Costumers(Resource):
     def get(self):
-        return {'costumers' : [costumer.json() for costumer in CostumerModel.query.all()]}
+        return {'costumers' : [costumer.to_json() for costumer in CostumerModel.query.all()]}
 
 class Costumer(Resource):
     def get(self, costumer_id_cpf):
