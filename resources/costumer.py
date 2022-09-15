@@ -11,7 +11,7 @@ class Costumers(Resource):
         return {'costumers' : [costumer.to_json() for costumer in CostumerModel.query.all()]}
 
 class Costumer(Resource):
-    def get(self, costumer_id_cpf):
+    def get(self, costumer_id_cpf: str):
         costumer = CostumerModel.find_costumer(costumer_id_cpf)
 
         if costumer:
@@ -23,8 +23,12 @@ class Costumer(Resource):
         costumer = CostumerModel.find_costumer(costumer_id_cpf)
 
         if costumer:
-            costumer.delete()
-            return {'message' : "Costumer with id '{}' successfully deleted".format(costumer_id_cpf)}
+            try:
+                costumer.delete()
+                return {'message' : "Costumer with id '{}' successfully deleted".format(costumer_id_cpf)}
+            
+            except:
+                return {'message' : 'An internal error has occurred while deleting costumer'}, 500 # Internal Server Error
         
         return {'message' : 'Costumer not found'}
             
@@ -43,7 +47,7 @@ class CostumerRegister(Resource):
             costumer.save()
         
         except:
-            return {'message' : 'an internal error has occurred while saving costumer'}, 500
+            return {'message' : 'an internal error has occurred while saving costumer'}, 500 # Internal Server Error
         
         return {'message' : "Costumer with id '{}' successfully created".format(data['costumer_id_cpf'])}
 

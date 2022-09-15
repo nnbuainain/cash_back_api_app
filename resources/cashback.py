@@ -16,7 +16,7 @@ class CashBacks(Resource):
         return {'cashbacks' : [cashback.to_json() for cashback in CashBackModel.query.all()]}
 
 class CashBack(Resource):
-    def get(self, cashback_id):
+    def get(self, cashback_id: int):
         cashback = CashBackModel.find_cashback(cashback_id)
 
         if cashback:
@@ -28,8 +28,11 @@ class CashBack(Resource):
         cashback = CashBackModel.find_cashback(cashback_id)
 
         if cashback:
-            cashback.delete()
-            return {'message' : "Cashback with id '{}' successfully deleted".format(cashback_id)}
+            try:
+                cashback.delete()
+                return {'message' : "Cashback with id '{}' successfully deleted".format(cashback_id)}
+            except:
+                return {'message' : 'An internal error has occurred while deleting cashback'}, 500 # Internal Server Error
         
         return {'message' : 'Cashback not found'}
             
@@ -60,11 +63,16 @@ class CashBackRegister(Resource):
 
             cashback = CashBackModel(CashBackRegister.cashback_total, api_response, sale_id)
             
-            cashback.save()
+            try:
+                cashback.save()
 
-            CashBackRegister.cashback_total = 0
+                CashBackRegister.cashback_total = 0
 
-            return cashback.to_json(), 201 # CREATED
+                return cashback.to_json(), 201 # CREATED
+            
+            except:
+                return {'message' : 'An internal error has occurred while saving cashback'}, 500 # Internal Server Error
+
             
         
     @classmethod

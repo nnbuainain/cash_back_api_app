@@ -11,7 +11,7 @@ class SaleModel(database.Model):
     total = database.Column(database.Float(precision = 2), default = 0)
 
 
-    def __init__(self, costumer_id_cpf: int, products: list):
+    def __init__(self, costumer_id_cpf: str, products: list):
         self.sale_date = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
         self.costumer_id_cpf = costumer_id_cpf
         self.products = products

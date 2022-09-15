@@ -13,7 +13,7 @@ class Sales(Resource):
         return {'sales' : [sale.to_json() for sale in SaleModel.query.all()]}
 
 class Sale(Resource):
-    def get(self, sale_id):
+    def get(self, sale_id: int):
         sale = SaleModel.find_sale(sale_id)
 
         if sale:
@@ -25,8 +25,12 @@ class Sale(Resource):
         sale = SaleModel.find_sale(sale_id)
 
         if sale:
-            sale.delete()
-            return {'message' : "Sale with id '{}' successfully deleted".format(sale_id)}
+            try:
+                sale.delete()
+                return {'message' : "Sale with id '{}' successfully deleted".format(sale_id)}
+            
+            except:
+                return {'message' : 'An internal error has occurred while deleting sale'}, 500 # Internal Server Error
         
         return {'message' : 'Sale not found'}
             
@@ -50,12 +54,16 @@ class SaleRegister(Resource):
                 
                 SaleRegister.products.append(product_json)
                 
-            sale = SaleModel(data['costumer_id_cpf'], SaleRegister.products)
-            sale.save()
+            try:
+                sale = SaleModel(data['costumer_id_cpf'], SaleRegister.products)
+                sale.save()
 
-            SaleRegister.products.clear()
+                SaleRegister.products.clear()
+                
+                return sale.to_json(), 201 # CREATED
             
-            return sale.to_json(), 201 # CREATED
+            except:
+                return {'message' : 'An internal error has occurred while saving sale'}, 500 # Internal Server Error
                 
 
         return {'message' : 'Costumer not registered in the database'}

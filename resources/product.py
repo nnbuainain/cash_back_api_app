@@ -13,7 +13,7 @@ class Products(Resource):
 class Product(Resource):
     product_categories = ['A', 'B', 'C']
     
-    def get(self, id):
+    def get(self, id: int):
         product = ProductModel.find_product(id)
 
         if product:
@@ -25,8 +25,12 @@ class Product(Resource):
         product = ProductModel.find_product(id)
 
         if product:
-            product.delete()
-            return {'message' : "Product with id '{}' successfully deleted".format(id)}
+            try:
+                product.delete()
+                return {'message' : "Product with id '{}' successfully deleted".format(id)}
+            
+            except:
+                return {'message' : 'An internal error has occurred while deleting product'}, 500 # Internal Server Error
         
         return {'message' : 'Product not found'}
             
@@ -40,8 +44,12 @@ class ProductRegister(Resource):
         if type(data['value']) is not float or data['value'] < 0:
             return {'message' : 'Invalid Product value, product value must be a positive decimal value'}
 
-        product = ProductModel(**data)
-        product.save()
+        try:
+            product = ProductModel(**data)
+            product.save()
+        
+        except:
+            return {'message' : 'An internal error has occurred while saving product'}, 500 # Internal Server Error
     
         return {'message' : "Product with id '{}' successfully registered".format(product.id)}
 
