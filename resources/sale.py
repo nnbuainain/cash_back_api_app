@@ -12,6 +12,7 @@ class Sales(Resource):
     def get(self):
         return {'sales' : [sale.to_json() for sale in SaleModel.query.all()]}
 
+
 class Sale(Resource):
     def get(self, sale_id: int):
         sale = SaleModel.find_sale(sale_id)
@@ -21,6 +22,7 @@ class Sale(Resource):
         
         return {'message' : 'Sale not found'}, 404 # Bad Request
     
+
     def delete(self, sale_id : int):
         sale = SaleModel.find_sale(sale_id)
 
@@ -33,6 +35,7 @@ class Sale(Resource):
                 return {'message' : 'An internal error has occurred while deleting sale'}, 500 # Internal Server Error
         
         return {'message' : 'Sale not found'}
+          
             
 class SaleRegister(Resource):   
     products = []

@@ -10,6 +10,7 @@ class Products(Resource):
     def get(self):
         return {'products' : [product.to_json() for product in ProductModel.query.all()]}
 
+
 class Product(Resource):
     product_categories = ['A', 'B', 'C']
     
@@ -21,6 +22,7 @@ class Product(Resource):
         
         return {'message' : 'Product not found'}, 404 # Bad Request
     
+
     def delete(self, id : int):
         product = ProductModel.find_product(id)
 
@@ -34,6 +36,7 @@ class Product(Resource):
         
         return {'message' : 'Product not found'}
             
+
 class ProductRegister(Resource):   
     def post(self):
         data = attributes.parse_args()
@@ -52,6 +55,3 @@ class ProductRegister(Resource):
             return {'message' : 'An internal error has occurred while saving product'}, 500 # Internal Server Error
     
         return {'message' : "Product with id '{}' successfully registered".format(product.id)}
-
-
-

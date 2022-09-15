@@ -6,9 +6,11 @@ class CostumerModel(database.Model):
     costumer_id_cpf = database.Column(database.String(11), primary_key = True)
     name = database.Column(database.String(40))
 
+
     def __init__(self, costumer_id_cpf : str, name: str):
         self.costumer_id_cpf = costumer_id_cpf
         self.name = name
+
 
     @classmethod
     def find_costumer(cls, costumer_id_cpf: str):
@@ -18,18 +20,19 @@ class CostumerModel(database.Model):
             return costumer
         return None
 
+
     def to_json(self) -> dict:
         return {
             'costumer_id_cpf' : self.costumer_id_cpf,
             'name' : self.name
             }
 
+
     def save(self):
         database.session.add(self)
         database.session.commit()
 
+
     def delete(self):
         database.session.delete(self)
         database.session.commit()
-
-

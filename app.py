@@ -9,16 +9,19 @@ from resources.sale import Sales, Sale, SaleRegister
 from models.cashback import CashBackModel
 from resources.cashback import CashBacks, CashBack, CashBackRegister
 
-app = Flask(__name__)
 
+app = Flask(__name__)
 api = Api(app)
+
 
 app.config['SQLALCHEMY_DATABASE_URI'] =  'sqlite:///database.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] =  False
 
+
 @app.before_first_request
 def create_database():
     database.create_all()
+
 
 api.add_resource(Costumers, '/costumers/')
 api.add_resource(Costumer, '/costumers/<string:costumer_id_cpf>')
@@ -32,7 +35,6 @@ api.add_resource(SaleRegister, '/register_sale')
 api.add_resource(CashBacks, '/cashbacks')
 api.add_resource(CashBack, '/cashbacks/<int:cashback_id>')
 api.add_resource(CashBackRegister, '/register_cashback')
-
 
 
 if __name__ == '__main__':

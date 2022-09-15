@@ -24,6 +24,7 @@ class CashBack(Resource):
         
         return {'message' : 'Cashback not found'}, 404 # Bad Request
     
+    
     def delete(self, cashback_id : int):
         cashback = CashBackModel.find_cashback(cashback_id)
 
@@ -72,7 +73,6 @@ class CashBackRegister(Resource):
             
             except:
                 return {'message' : 'An internal error has occurred while saving cashback'}, 500 # Internal Server Error
-
             
         
     @classmethod

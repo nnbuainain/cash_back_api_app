@@ -12,6 +12,7 @@ class ProductModel(database.Model):
         self.category = category.upper()
         self.value = value
 
+
     @classmethod
     def find_product(cls, id: str):
         product = cls.query.filter_by(id = id).first()
@@ -20,6 +21,7 @@ class ProductModel(database.Model):
             return product
         return None
 
+
     def to_json(self) -> dict:
         return {
             'id' : self.id,
@@ -27,12 +29,12 @@ class ProductModel(database.Model):
             'value' : self.value
             }
 
+
     def save(self):
         database.session.add(self)
         database.session.commit()
 
+
     def delete(self):
         database.session.delete(self)
         database.session.commit()
-
-

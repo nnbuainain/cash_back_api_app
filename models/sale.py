@@ -26,6 +26,7 @@ class SaleModel(database.Model):
             return sale
         return None
 
+
     def to_json(self) -> dict:
         return {
             'sale_id' : self.sale_id, 
@@ -35,9 +36,11 @@ class SaleModel(database.Model):
             'total' : self.total
             }
 
+
     def save(self):
         database.session.add(self)
         database.session.commit()
+
 
     def delete(self):
         database.session.delete(self)

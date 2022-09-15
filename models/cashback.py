@@ -23,6 +23,7 @@ class CashBackModel(database.Model):
             return cashback
         return None
 
+
     @classmethod
     def find_cashback_by_sale_id(cls, sale_id: int):
         cashback = cls.query.filter_by(sale_id = sale_id).first()
@@ -30,6 +31,7 @@ class CashBackModel(database.Model):
         if cashback:
             return cashback
         return None
+
 
     def to_json(self) -> dict:
         return {
@@ -39,9 +41,11 @@ class CashBackModel(database.Model):
             'sale_id' : self.sale_id,
             }
 
+
     def save(self):
         database.session.add(self)
         database.session.commit()
+
 
     def delete(self):
         database.session.delete(self)

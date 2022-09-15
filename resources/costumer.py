@@ -19,6 +19,7 @@ class Costumer(Resource):
         
         return {'message' : 'User not found'}, 404 # Bad Request
     
+
     def delete(self, costumer_id_cpf : str):
         costumer = CostumerModel.find_costumer(costumer_id_cpf)
 
@@ -31,7 +32,8 @@ class Costumer(Resource):
                 return {'message' : 'An internal error has occurred while deleting costumer'}, 500 # Internal Server Error
         
         return {'message' : 'Costumer not found'}
-            
+
+
 class CostumerRegister(Resource):   
     def post(self):
         data = attributes.parse_args()
@@ -50,6 +52,3 @@ class CostumerRegister(Resource):
             return {'message' : 'an internal error has occurred while saving costumer'}, 500 # Internal Server Error
         
         return {'message' : "Costumer with id '{}' successfully created".format(data['costumer_id_cpf'])}
-
-
-
