@@ -7,7 +7,7 @@ class SaleModel(database.Model):
     sale_id = database.Column(database.Integer, primary_key = True)
     sale_date = database.Column(database.String)
     costumer_id_cpf = database.Column(database.Integer, database.ForeignKey('costumers.costumer_id_cpf'))
-    products = database.Column(database.JSON, nullable = True, default = [])
+    products = database.Column(database.JSON, nullable = True, default = []) # Try to delete nullable and test it
     total = database.Column(database.Float(precision = 2), default = 0)
 
 
@@ -15,7 +15,7 @@ class SaleModel(database.Model):
         self.sale_date = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
         self.costumer_id_cpf = costumer_id_cpf
         self.products = products
-        self.total = sum([product.get('value', 0) for product in self.products])
+        self.total = round(sum([product.get('value', 0)*product.get('quantity', 0) for product in self.products]),2)
     
 
     @classmethod

@@ -6,6 +6,8 @@ from models.product import ProductModel
 from resources.product import Products, Product, ProductRegister
 from models.sale import SaleModel
 from resources.sale import Sales, Sale, SaleRegister
+from models.cashback import CashBackModel
+from resources.cashback import CashBacks, CashBack, CashBackRegister
 
 app = Flask(__name__)
 
@@ -27,6 +29,10 @@ api.add_resource(ProductRegister, '/register_product')
 api.add_resource(Sales, '/sales')
 api.add_resource(Sale, '/sales/<int:sale_id>')
 api.add_resource(SaleRegister, '/register_sale')
+api.add_resource(CashBacks, '/cashbacks')
+api.add_resource(CashBack, '/cashbacks/<int:cashback_id>')
+api.add_resource(CashBackRegister, '/register_cashback')
+
 
 
 if __name__ == '__main__':
