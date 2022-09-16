@@ -60,4 +60,4 @@ api.add_resource(CashBackRegister, '/register_cashback')
 if __name__ == '__main__':
     from sql_alchemy import database
     database.init_app(app)
-    app.run(debug = True)
+    app.run(host = '0.0.0.0', debug = True)
