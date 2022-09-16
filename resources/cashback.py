@@ -4,7 +4,9 @@ from models.product import ProductModel
 from models.sale import SaleModel
 from models.cashback import CashBackModel
 from requests import request
+from flask_jwt_extended import jwt_required
 import json
+
 
 CASHBACK_URL = 'https://5efb30ac80d8170016f7613d.mockapi.io/api/mock/Cashback'
 HEADER = {'Content-Type' : 'application/json'}
@@ -12,10 +14,12 @@ HEADER = {'Content-Type' : 'application/json'}
 attributes = reqparse.RequestParser()
 attributes.add_argument('sale_id', type = int)
 class CashBacks(Resource):
+    @jwt_required()
     def get(self):
         return {'cashbacks' : [cashback.to_json() for cashback in CashBackModel.query.all()]}
 
 class CashBack(Resource):
+    @jwt_required()
     def get(self, cashback_id: int):
         cashback = CashBackModel.find_cashback(cashback_id)
 
@@ -24,7 +28,7 @@ class CashBack(Resource):
         
         return {'message' : 'Cashback not found'}, 404 # Bad Request
     
-    
+    @jwt_required()
     def delete(self, cashback_id : int):
         cashback = CashBackModel.find_cashback(cashback_id)
 
@@ -40,6 +44,7 @@ class CashBack(Resource):
 class CashBackRegister(Resource):   
     cashback_total = 0
     
+    @jwt_required()
     def post(self):
         
         sale_id = attributes.parse_args()['sale_id']

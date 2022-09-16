@@ -1,5 +1,6 @@
 from flask_restful import Resource, reqparse
 from models.costumer import CostumerModel
+from flask_jwt_extended import jwt_required
 
 attributes = reqparse.RequestParser()
 attributes.add_argument('costumer_id_cpf', type = str, required = True, help = "Please inform costumer's id")
@@ -7,10 +8,13 @@ attributes.add_argument('name', type = str)
 
 
 class Costumers(Resource):
+    
+    @jwt_required()
     def get(self):
         return {'costumers' : [costumer.to_json() for costumer in CostumerModel.query.all()]}
 
 class Costumer(Resource):
+    @jwt_required()
     def get(self, costumer_id_cpf: str):
         costumer = CostumerModel.find_costumer(costumer_id_cpf)
 
@@ -19,7 +23,7 @@ class Costumer(Resource):
         
         return {'message' : 'User not found'}, 404 # Bad Request
     
-
+    @jwt_required()
     def delete(self, costumer_id_cpf : str):
         costumer = CostumerModel.find_costumer(costumer_id_cpf)
 
@@ -35,6 +39,8 @@ class Costumer(Resource):
 
 
 class CostumerRegister(Resource):   
+    
+    @jwt_required()
     def post(self):
         data = attributes.parse_args()
         

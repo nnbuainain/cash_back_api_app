@@ -1,5 +1,6 @@
 from flask_restful import Resource, reqparse
 from models.product import ProductModel
+from flask_jwt_extended import jwt_required
 
 attributes = reqparse.RequestParser()
 attributes.add_argument('category', type = str, required = True, help = "Please inform a valid product's category")
@@ -7,6 +8,8 @@ attributes.add_argument('value', type = float, required = True, help = "Please i
 
 
 class Products(Resource):
+    
+    
     def get(self):
         return {'products' : [product.to_json() for product in ProductModel.query.all()]}
 
@@ -22,7 +25,7 @@ class Product(Resource):
         
         return {'message' : 'Product not found'}, 404 # Bad Request
     
-
+    @jwt_required()
     def delete(self, id : int):
         product = ProductModel.find_product(id)
 
@@ -38,6 +41,8 @@ class Product(Resource):
             
 
 class ProductRegister(Resource):   
+    
+    @jwt_required()
     def post(self):
         data = attributes.parse_args()
         

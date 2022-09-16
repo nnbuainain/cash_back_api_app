@@ -2,6 +2,7 @@ from flask_restful import Resource, reqparse
 from models.costumer import CostumerModel
 from models.product import ProductModel
 from models.sale import SaleModel
+from flask_jwt_extended import jwt_required
 
 attributes = reqparse.RequestParser()
 attributes.add_argument('costumer_id_cpf', type = str, required = True, help = "Please inform a valid costumer id")
@@ -9,11 +10,15 @@ attributes.add_argument('products_and_quantities', type = dict, action = "append
 
 
 class Sales(Resource):
+    
+    @jwt_required()
     def get(self):
         return {'sales' : [sale.to_json() for sale in SaleModel.query.all()]}
 
 
 class Sale(Resource):
+    
+    @jwt_required()
     def get(self, sale_id: int):
         sale = SaleModel.find_sale(sale_id)
 
@@ -22,7 +27,7 @@ class Sale(Resource):
         
         return {'message' : 'Sale not found'}, 404 # Bad Request
     
-
+    @jwt_required()
     def delete(self, sale_id : int):
         sale = SaleModel.find_sale(sale_id)
 
@@ -35,10 +40,12 @@ class Sale(Resource):
                 return {'message' : 'An internal error has occurred while deleting sale'}, 500 # Internal Server Error
         
         return {'message' : 'Sale not found'}
-          
-            
+
+
 class SaleRegister(Resource):   
     products = []
+    
+    @jwt_required()
     def post(self):
         data = attributes.parse_args()
 
